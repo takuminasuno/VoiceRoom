@@ -1,0 +1,34 @@
+<h3 class="uk-text-bold">ルーム一覧</h3>
+<?
+  const user = Session.getActiveUser().getEmail();
+  const today = Utilities.formatDate(new Date(),'JST','yyyy/MM/dd');
+  
+  let recordList = getRoomRecordList();
+  for (let iRecord = 0; iRecord < recordList.length; iRecord++){
+    const record = recordList[iRecord];
+    
+    const date = getDateFormat(record['date']);
+    const isAvailable = today <= record['date'];
+    const isToday = today == record['date'];
+    const params = {
+      id:record['id'],
+      date:date,
+      time:record['time'],
+      name:record['name'],
+      description:record['description'],
+      
+      url:record['url'],
+      urlStyle:(isAvailable && record['url'] && record['url'] != '' ? '' :'display:none'),
+      
+      movieUrl:record['movieUrl'],
+      movieUrlStyle:(record['movieUrl'] && record['movieUrl'] != '' ? '' : 'display:none'),
+      
+      documentUrl:record['documentUrl'],
+      documentUrlStyle:(record['documentUrl'] && record['documentUrl'] != '' ? '' : 'display:none'),
+      
+      updateUrlStyle:(record['user'] == user ? '' : 'display:none'),
+      cardStyle:(isToday ? 'background-color:#FFFFE3' : (isAvailable ? '' : 'background-color:#F9F9F9'))
+    };
+    output._=include('cardElement',params);
+  }
+?>

@@ -1,0 +1,27 @@
+<div class="uk-card uk-card-default uk-card-hover uk-card-body uk-padding-small uk-flex" style="margin-bottom:6px;<?=cardStyle?>">
+  <div class="uk-text-muted uk-text-small" style="width:120px">
+    <div><?=date?></div>
+    <div><?=time?></div>
+  </div>
+  <div class="uk-flex-1">
+    <div class="uk-text-bold">
+      <?=name?>
+      <a target="_top" href="{parentUrl}?p=updateRoom&id=<?=id?>" style="<?=updateUrlStyle?>" uk-icon="icon:pencil" class="uk-align-right"></a>
+    </div>
+    <div class="uk-text-muted uk-text-small"><?=description?></div>
+    <div class="uk-margin-small-top">
+      <a target="_blank" href="<?=url?>" style="<?=urlStyle?>" class="uk-button uk-button-default uk-padding-small uk-padding-remove-top uk-padding-remove-bottom uk-margin-small-right">
+        <span uk-icon="icon:home"></span>
+        <span class="uk-text-muted">ルームを開く</span>
+      </a>
+      <a target="_blank" href="<?=movieUrl?>" style="<?=movieUrlStyle?>" class="uk-button uk-button-default uk-padding-small uk-padding-remove-top uk-padding-remove-bottom uk-margin-small-right">
+        <span uk-icon="icon:video-camera"></span>
+        <span class="uk-text-muted">録画動画を開く</span>
+      </a>
+      <a target="_blank" href="<?=documentUrl?>" style="<?=documentUrlStyle?>" class="uk-button uk-button-default uk-padding-small uk-padding-remove-top uk-padding-remove-bottom uk-margin-small-right">
+        <span uk-icon="icon:link"></span>
+        <span class="uk-text-muted">配布資料を開く</span>
+      </a>
+    </div>
+  </div>
+</div>

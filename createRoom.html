@@ -1,0 +1,58 @@
+<h3 class="uk-text-bold">ルームを作成する</h3>
+<p>"{user}" 名義で新しいルームを作ります。</p>
+<p>必要な情報を入力して「作成する」ボタンを押してください。</p>
+<form class="uk-form-horizontal uk-margin-large">
+  <?!=include('formElement',{name:'ルーム名',id:'name',placeholder:'',value:'{name}'})?>
+  <?!=include('formElement',{name:'ルーム概要',id:'description',placeholder:'※(任意)10文字〜140文字程度で概要を書いてください。',value:'{description}'})?>
+  <?!=include('formElement',{name:'日付',id:'date',placeholder:'',value:'{date}'})?>
+  <?!=include('formElement',{name:'時刻',id:'time',placeholder:'※(任意)12:00-12:30など時刻を自由に記入してください。',value:'{time}'})?>
+  <?!=include('formElement',{name:'ルームURL',id:'url',placeholder:'※Google MeetなどのURLを転記してください。',value:''})?>
+  <?!=include('formElement',{name:'録画動画URL',id:'movieUrl',placeholder:'※(任意)実施後の録画動画のURLを転記してください。',value:''})?>
+  <?!=include('formElement',{name:'配布資料URL',id:'documentUrl',placeholder:'※(任意)配布資料などのURLを転記してください。',value:''})?>
+  <div class="uk-margin-large uk-text-center">
+    <a id="actionButton" class="uk-button uk-button-primary" onclick="createRoom()">作成する</a>
+  </div>
+</form>
+<script>
+  $(function(){
+    $("#date").datepicker();
+  });  
+  function createRoom(){
+    
+    //まずbuttonをdisabledにする
+    $('#actionButton').disabled = true;
+    $('#actionButton').addClass('uk-button-default uk-text-muted').removeClass('uk-button-primary');
+    
+    //データを取得
+    const name = $('#name').val();
+    const description = $('#description').val();
+    const date = $('#date').val();
+    const time = $('#time').val();
+    const url = $('#url').val();
+    const movieUrl = $('#movieUrl').val();
+    const documentUrl = $('#documentUrl').val();
+    
+    //エラーチェック
+    let error;
+    if (name == ''){
+      error = 'ルーム名';
+    } else if (url == ''){
+      error = 'ルームURL';
+    };
+    if (error){
+      UIkit.modal.dialog('<p class="uk-padding">' + error + 'が入力されていません。</p>');
+      $('#actionButton').disabled = false;
+      $('#actionButton').addClass('uk-button-primary').removeClass('uk-button-default uk-text-muted');
+      return;
+    }
+    
+    //問題なければデータを反映
+    google.script.run
+      .withSuccessHandler(completeCreatingRoom)
+      .createRoomRecord(name,description,date,time,url,movieUrl,documentUrl);
+  }
+  function completeCreatingRoom(message){
+    UIkit.modal.dialog('<p class="uk-padding">' + message + '</p>');
+    window.open('{parentUrl}','_top');
+  }
+</script>
